@@ -1,11 +1,12 @@
-<!DOCTYPE html> <html>
+<!DOCTYPE html>
+<html>
 <head>
   <meta lang="ru"/>
   <title>Авиакасса</title>
-  <link href="base.css" rel="stylesheet" type="text/css"/>
-  <link href="news.css" rel="stylesheet" type="text/css"/>
-  <script type="text/javascript" src="jquery.js"></script>
-  <script type="text/javascript" src="list.js"></script>
+  <link href="css/base.css" rel="stylesheet" type="text/css"/>
+  <link href="css/news.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/list.js"></script>
 </head>
 <body>
   <header>
@@ -13,7 +14,7 @@
       <span class="second-ch">S</span>8
     </div>
     <div class="signup">
-      Войти/Зарегистрироваться
+      <a href="./form_regauth.html">Войти/Зарегистрироваться</a>
     </div>
   </header>
   <div class="body-container">
@@ -26,6 +27,13 @@
       <div class="menu-elem noselect">Отмена рейсов</div>
     </nav>
     <div class="body">
+        <table border="0" width="100%" bgcolor="#E8E8E8" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="100%">
+                    <script src="js/tip_of_the_day.js"></script>
+                </td>
+            </tr>
+        </table>
       <ul id="listticker">
         <li>
           <img src="img/1.png" />
