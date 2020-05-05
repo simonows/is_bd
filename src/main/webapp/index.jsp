@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
       <span class="second-ch">S</span>8
     </div>
     <div class="signup">
-      <a href="./form_regauth.html">Войти/Зарегистрироваться</a>
+      <a href="regauth">Войти/Зарегистрироваться</a>
     </div>
   </header>
   <div class="body-container">

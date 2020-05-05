@@ -55,11 +55,11 @@ body{
   box-shadow: 0 0 18px 10px white;
 }
 
-.mesage_error{
+.mesage-error{
   color: #bb0000;
 }
 
-.success_message{
+.success-message{
   color: #0e8f0e;
 }
 
@@ -85,7 +85,7 @@ body{
   margin: 0 0.2em;
   font-family: "Roboto", sans-serif;
   font-size: 11pt;
-  color: #6395c7;
+  color: #228b22;
 }
 
 .footer a:hover{
@@ -140,18 +140,18 @@ body{
 }
 
 .form input[type="text"]:hover, .form input[type="password"]:hover{
-  border: 1px solid #6395c7;
+  border: 1px solid #228b22;
 }
 
 .form input[type="text"]:focus, .form input[type="password"]:focus{
-  border: 1px solid #6395c7;
+  border: 1px solid #228b22;
 }
 
 .form .button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #6395c7;
+  background: #228b22;
   width: 100%;
   border: 0;
   padding: 8px 10px;
@@ -250,7 +250,7 @@ input[type=checkbox]{
 }
 
 .centerer input[type=checkbox]:hover + label:after{
-  outline:1px solid #6395c7;
+  outline:1px solid #228b22;
 }
 
 
@@ -259,7 +259,7 @@ input[type=checkbox]:checked + label:after{
   border:2px solid #fff;
   width:11px;
   height:11px;
-  background-color:#6395c7;
+  background-color:#228b22;
 }
 
 body {
@@ -278,7 +278,7 @@ body {
   font-size: 40pt;
   line-height: 70px;
   margin: 0 10px;
-  color: #6395c7;
+  color: #228b22;
   font-weight: 800;
   display: inline-block;
   white-space: nowrap;
@@ -298,8 +298,11 @@ body {
   line-height: 1em;
   padding: 7px;
   border-radius: 7px;
-  background: #6395c7;
+  background: #228b22;
   color: white;
   margin-right: 5px;
+}
+#captcha2, #captcha{
+  margin: 10px;
 }
 
