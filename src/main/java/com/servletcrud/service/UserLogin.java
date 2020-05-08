@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserLogin extends HttpServlet{
     DBConnection dBConnection;
     Connection con;
+    String captcha;
 
     @Override
     public void init() {
@@ -44,13 +46,13 @@ public class UserLogin extends HttpServlet{
         
         String email = request.getParameter("name");
         String pass = request.getParameter("password");
-        String captcha = request.getParameter("captcha_text");
+        String captcha_text = request.getParameter("captcha_text");
         
         try {
-            if (!checkCaptcha(captcha))
+            if (!checkCaptcha(captcha_text))
             {
-                request.setAttribute("errorlog", "Captcha incorrect " + captcha);
-                RequestDispatcher rs = request.getRequestDispatcher("form_regauth.jsp");
+                request.setAttribute("errorlog", "Капча введена неверно");
+                RequestDispatcher rs = request.getRequestDispatcher("regauth");
                 rs.include(request, response);
                 return;
             }
@@ -61,8 +63,8 @@ public class UserLogin extends HttpServlet{
             }
             else
             {
-                request.setAttribute("errorlog", "Username or Password incorrect");
-                RequestDispatcher rs = request.getRequestDispatcher("form_regauth.jsp");
+                request.setAttribute("errorlog", "Неправильный логин или пароль");
+                RequestDispatcher rs = request.getRequestDispatcher("regauth");
                 rs.include(request, response);
             }
         } catch (SQLException ex) {
@@ -72,9 +74,11 @@ public class UserLogin extends HttpServlet{
    
     public boolean checkCaptcha(String name) throws IOException {
         FileReader reader = new FileReader("/opt/tomcat9/webapps/aviakassa-1.0/captcha.txt");
-        char [] a = new char[200];
-        reader.read(a);
-        String captcha = new String(a);
+        char []buf = new char[200];
+        int len = reader.read(buf);
+        
+        buf = Arrays.copyOf(buf, len);
+        captcha = new String(buf);
 
         if (captcha.equals(name)){
             return true;

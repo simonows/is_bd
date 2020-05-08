@@ -16,7 +16,7 @@
           <td style="vertical-align: bottom;">
               <div class="error-message">
                   <p class='mesage-error' id="error-message1">${errorlog}</p>
-                  <p class='success-message' id="success-message1"></p>
+                  <p class='success-message' id="success-message1">${successlog}</p>
               </div>
           </td>
       </tr>
@@ -33,12 +33,12 @@
               <!--<button class="nonselect">Зарегистрироваться</button>!-->
             </form>
             <form class="login-form" action="UserLogin" method="post" name="form_auth" required>
-              <input type="text" name="name" placeholder="логин" required/>
+              <input type="text" onBlur="ourajax(this);" name="name" placeholder="логин" required/>
               <input type="password" name="password" placeholder="пароль" required/>
               <div class="checkboxelem nonselect"><div class="centerer"><input id="check-foreign" type="checkbox"/><label for="check-foreign">чужой компьютер</label></div></div>
               <div id="captcha2">${captcha}</div>
               <input type="text" id="captcha_text" name="captcha_text" placeholder="проверочный код" required/>
-              <input class="nonselect button btn-submit" type="submit" name="btn_submit_auth" value="Войти"/>
+              <input class="nonselect button btn-submit" type="submit" id="btn_submit_auth" name="btn_submit_auth" value="Войти"/>
               <!--<button class="nonselect">Войти</button>!-->
             </form>
           </div>

@@ -13,10 +13,10 @@ function inverser(){
 var first, second;
 
 function InitStart(){
-    first = Math.floor(Math.random() * 120);
+    /*first = Math.floor(Math.random() * 120);
     second = Math.floor(Math.random() * 120);
     document.getElementById('captcha').innerHTML = first + ' + ' + second + ' = ?';
-    document.getElementById('captcha2').innerHTML = first + ' + ' + second + ' = ?';
+    document.getElementById('captcha2').innerHTML = first + ' + ' + second + ' = ?';*/
 }
 
 $(function() {
@@ -43,3 +43,25 @@ $(function() {
     return false;
   }
 });
+
+function ourajax(cur){
+    var data = {};
+    data = {"login":cur.text};
+    //
+    $.ajax
+    ({
+        type: "POST",//Метод передачи
+        data: data,//Передаваемые данные в JSON - формате
+        url: 'CheckLogin',//Название сервлета
+        success:function(serverData)//Если запрос удачен
+        {
+            //$("#success-message1").css({"background-color":serverData.backgroundColor, "height": "50px", "color":"white"});
+            $("#success-message1").html(serverData.serverInfo);
+        },
+        error: function(e)//Если запрос не удачен
+        {
+            //$("#auth-info").css({"background-color":"#CC6666", "height": "50px", "color":"white"});
+            $("#error-message1").html("Ajax не удался!");
+        }
+    });
+}
