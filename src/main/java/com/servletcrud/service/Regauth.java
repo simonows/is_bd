@@ -34,9 +34,9 @@ public class Regauth extends HttpServlet {
 
     @Override
     public void init() {
-        
+
     }
-    
+
     public void StartCaptcha() throws IOException {
         FileWriter writer = new FileWriter(
              "/opt/tomcat9/webapps/aviakassa-1.0/captcha.txt"
@@ -46,7 +46,7 @@ public class Regauth extends HttpServlet {
         writer.flush();
         writer.close();
     }
-    
+
     @Override
     protected void doGet(
          HttpServletRequest request
@@ -56,12 +56,16 @@ public class Regauth extends HttpServlet {
         captcha_y = (int)Math.abs(Math.random() * 100);
         StartCaptcha();
         response.setContentType("text/html; charset=UTF-8");
-        
-        request.setAttribute("captcha", String.valueOf(captcha_x) + " + " + String.valueOf(captcha_y) + " = ?");
+
+        request.setAttribute(
+             "captcha"
+            ,String.valueOf(captcha_x)
+            +" + " + String.valueOf(captcha_y) + " = ?"
+        );
         RequestDispatcher rs = request.getRequestDispatcher("form_regauth.jsp");
         rs.include(request, response);
-    } 
-    
+    }
+
     @Override
     protected void doPost(
          HttpServletRequest request
@@ -71,9 +75,13 @@ public class Regauth extends HttpServlet {
         captcha_y = (int)Math.abs(Math.random() * 100);
         StartCaptcha();
         response.setContentType("text/html; charset=UTF-8");
-        
-        request.setAttribute("captcha", String.valueOf(captcha_x) + " + " + String.valueOf(captcha_y) + " = ?");
+
+        request.setAttribute(
+             "captcha"
+            ,String.valueOf(captcha_x)
+            + " + " + String.valueOf(captcha_y) + " = ?"
+        );
         RequestDispatcher rs = request.getRequestDispatcher("form_regauth.jsp");
         rs.include(request, response);
-    }  
+    }
 }

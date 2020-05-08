@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.servletcrud.service;
-
 
 import com.servletcrud.util.DBConnection;
 import java.io.*;
@@ -23,10 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Sourav
- */
+
 public class UserLogin extends HttpServlet{
     DBConnection dBConnection;
     Connection con;
@@ -35,19 +26,21 @@ public class UserLogin extends HttpServlet{
     @Override
     public void init() {
         dBConnection = new DBConnection();
-        con = dBConnection.checkUser(); 
+        con = dBConnection.checkUser();
     }
-    
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(
+         HttpServletRequest request
+        ,HttpServletResponse response
+    ) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         String email = request.getParameter("name");
         String pass = request.getParameter("password");
         String captcha_text = request.getParameter("captcha_text");
-        
+
         try {
             if (!checkCaptcha(captcha_text))
             {
@@ -63,20 +56,25 @@ public class UserLogin extends HttpServlet{
             }
             else
             {
-                request.setAttribute("errorlog", "Неправильный логин или пароль");
+                request.setAttribute(
+                     "errorlog"
+                    ,"Неправильный логин или пароль"
+                );
                 RequestDispatcher rs = request.getRequestDispatcher("regauth");
                 rs.include(request, response);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }  
-   
+    }
+
     public boolean checkCaptcha(String name) throws IOException {
-        FileReader reader = new FileReader("/opt/tomcat9/webapps/aviakassa-1.0/captcha.txt");
+        FileReader reader = new FileReader(
+            "/opt/tomcat9/webapps/aviakassa-1.0/captcha.txt"
+        );
         char []buf = new char[200];
         int len = reader.read(buf);
-        
+
         buf = Arrays.copyOf(buf, len);
         captcha = new String(buf);
 
@@ -87,13 +85,18 @@ public class UserLogin extends HttpServlet{
             return false;
         }
     }
-   
-    public boolean checkUser(Connection con, String name, String pass) throws SQLException{
-            PreparedStatement ps = con.prepareStatement
-            ("select * from users where name=? and password=?");
+
+    public boolean checkUser(
+         Connection con
+        ,String name
+        ,String pass
+    ) throws SQLException{
+        PreparedStatement ps = con.prepareStatement(
+            "select * from users where name=? and password=?"
+        );
         ps.setString(1, name);
         ps.setString(2, pass);
         ResultSet rs =ps.executeQuery();
         return rs.next();
-   }
+    }
 }
