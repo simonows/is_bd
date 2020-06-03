@@ -38,20 +38,20 @@ public class CheckLogin extends HttpServlet {
             dBConnection = new DBConnection();
             con = dBConnection.checkUser();
 
-            PreparedStatement ps=con.prepareStatement(
-                "select password from users where name='?'"
+            PreparedStatement ps = con.prepareStatement(
+                "select password from users where name = ?"
             );
 
             ps.setString(1, request.getParameter("login"));
 
-            int i = ps.executeUpdate();
-
-            if (i > 0){
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.last();
+            if (resultSet.getRow() == 0){
                 //jsonEnt.put("backgroundColor","#99CC66");
                 jsonEnt.put("serverInfo", "Логин свободен");
             } else {
                 //jsonEnt.put("backgroundColor","#CC6666");
-                jsonEnt.put("serverInfo", "Логин уже занят");
+                jsonEnt.put("serverInfo", "Логин занят");
             }
             out.print(jsonEnt.toString());
             con.close();

@@ -15,10 +15,12 @@ public class DBConnection {
                 ,"tomcat9"
                 ,"password"
             );
+            
+            return con;
         } catch(ClassNotFoundException | SQLException e)
         {
             e.printStackTrace();
         }
-        return con;
+        return null;
     }
 }

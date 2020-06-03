@@ -48,7 +48,7 @@ $(function(){
 
 function ourajax(cur){
     var data = {};
-    data = {"login":cur.text};
+    data = {"login":$("#place123").val()};
 
     $.ajax
     ({

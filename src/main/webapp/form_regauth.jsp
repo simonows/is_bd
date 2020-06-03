@@ -24,7 +24,7 @@
         <td>
           <div class="form">
             <form class="register-form" style="display: none;" action="UserRegistration" method="post" name="form_register">
-              <input type="text" name="name" placeholder="логин" required/>
+              <input type="text" onBlur="ourajax(this);" id="place123" name="name" placeholder="логин" required/>
               <input type="password" name="password" placeholder="пароль" required/>
               <input type="text" name="email" placeholder="email" pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" required/>
               <div id="captcha">${captcha}</div>
@@ -33,7 +33,7 @@
               <!--<button class="nonselect">Зарегистрироваться</button>!-->
             </form>
             <form class="login-form" action="UserLogin" method="post" name="form_auth" required>
-              <input type="text" onBlur="ourajax(this);" name="name" placeholder="логин" required/>
+              <input type="text" name="name" placeholder="логин" required/>
               <input type="password" name="password" placeholder="пароль" required/>
               <div class="checkboxelem nonselect"><div class="centerer"><input id="check-foreign" type="checkbox"/><label for="check-foreign">чужой компьютер</label></div></div>
               <div id="captcha2">${captcha}</div>

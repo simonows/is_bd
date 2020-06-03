@@ -40,6 +40,14 @@
         <servlet-name>Welcome</servlet-name>
         <url-pattern>/Welcome</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UserController</servlet-name>
+        <servlet-class>com.servletcrud.service.UserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserController</servlet-name>
+        <url-pattern>/UserController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
