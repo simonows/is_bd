@@ -20,6 +20,22 @@
         <servlet-name>Welcome</servlet-name>
         <servlet-class>com.servletcrud.service.Welcome</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>com.servletcrud.service.Logout</servlet-class>
+    </servlet>
+      <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>NewsController</servlet-name>
+        <servlet-class>com.servletcrud.service.NewsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewsController</servlet-name>
+        <url-pattern>/news</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>regauth</servlet-name>
         <url-pattern>/regauth</url-pattern>
@@ -50,7 +66,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            3000
         </session-timeout>
     </session-config>
 </web-app>

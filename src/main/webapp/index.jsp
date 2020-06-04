@@ -22,7 +22,7 @@
     <nav class="menu">
       <div class="menu-elem noselect">Прилет</div>
       <div class="menu-elem noselect">Вылет</div>
-      <div class="menu-elem noselect">Новости</div>
+      <div class="menu-elem noselect"><a href="https://shtudy.org/news.jsp">Новости</a></div>
       <div class="menu-elem noselect">Акции</div>
       <div class="menu-elem noselect">Правила</div>
       <div class="menu-elem noselect">Отмена рейсов</div>

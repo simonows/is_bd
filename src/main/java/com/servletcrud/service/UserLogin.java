@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,6 +52,8 @@ public class UserLogin extends HttpServlet{
             }
             if (checkUser(con, email, pass))
             {
+                HttpSession session = request.getSession();
+                session.setAttribute("name", email);
                 RequestDispatcher rs = request.getRequestDispatcher("Welcome");
                 rs.forward(request, response);
             }
