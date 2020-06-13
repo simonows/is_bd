@@ -17,10 +17,6 @@
         <servlet-class>com.servletcrud.service.UserLogin</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Welcome</servlet-name>
-        <servlet-class>com.servletcrud.service.Welcome</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Logout</servlet-name>
         <servlet-class>com.servletcrud.service.Logout</servlet-class>
     </servlet>
@@ -28,6 +24,52 @@
         <servlet-name>Logout</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Cabinet</servlet-name>
+        <servlet-class>com.servletcrud.user.Cabinet</servlet-class>
+    </servlet>
+      <servlet-mapping>
+        <servlet-name>Cabinet</servlet-name>
+        <url-pattern>/cabinet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TSearch</servlet-name>
+        <servlet-class>com.servletcrud.user.TSearch</servlet-class>
+    </servlet>
+      <servlet-mapping>
+        <servlet-name>TSearch</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Tickets</servlet-name>
+        <servlet-class>com.servletcrud.user.Tickets</servlet-class>
+    </servlet>
+      <servlet-mapping>
+        <servlet-name>Tickets</servlet-name>
+        <url-pattern>/tickets</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Settings</servlet-name>
+        <servlet-class>com.servletcrud.user.Settings</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Settings</servlet-name>
+        <url-pattern>/settings</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.servletcrud.user.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/cabinet</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/search</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>NewsController</servlet-name>
         <servlet-class>com.servletcrud.service.NewsController</servlet-class>
@@ -52,10 +94,6 @@
         <servlet-name>CheckLogin</servlet-name>
         <url-pattern>/CheckLogin</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Welcome</servlet-name>
-        <url-pattern>/Welcome</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>UserController</servlet-name>
         <servlet-class>com.servletcrud.service.UserController</servlet-class>
@@ -65,8 +103,12 @@
         <url-pattern>/UserController</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>
-            3000
-        </session-timeout>
+        <session-timeout>-1</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+            <path>/</path>
+            <!-- Cookie lifetime in seconds -->
+            <max-age>900</max-age>
+        </cookie-config>
     </session-config>
 </web-app>

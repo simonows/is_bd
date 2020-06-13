@@ -1,11 +1,9 @@
 package com.servletcrud.service;
 
-import com.servletcrud.util.DBConnection;
+import com.servletcrud.util.DBConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,12 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public class UserRegistration extends HttpServlet{
-    DBConnection dBConnection;
-    Connection con;
+    DBConnect con;
 
     @Override
-    public void init(){
+    public void init() {
+        con = new DBConnect();
+        con.init();
+    }
 
+    @Override
+    public void destroy() {
+        con.close();
     }
 
     @Override
@@ -28,23 +31,16 @@ public class UserRegistration extends HttpServlet{
         ,HttpServletResponse response
     ) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
         String name=request.getParameter("name");
         String pass=request.getParameter("password");
 
-        System.out.println("Username: " + name + " Pass: " + pass);
-
         try {
-            dBConnection = new DBConnection();
-            con = dBConnection.checkUser();
-            PreparedStatement ps=con.prepareStatement(
-            "insert into users (name,password) values(?,?)");
-
-            ps.setString(1, name);
-            ps.setString(2, pass);
-
-            int i = ps.executeUpdate();
+            int i =con.update(
+                "insert into users (name,password) values(?,?)"
+              , name
+              , pass
+            );
             if (i > 0) {
                 request.setAttribute(
                      "successlog"
@@ -53,13 +49,19 @@ public class UserRegistration extends HttpServlet{
                 RequestDispatcher rs = request.getRequestDispatcher("regauth");
                 rs.include(request, response);
             }
-            con.close();
         } catch(Exception e2) {
             request.setAttribute("errorlog", e2.getMessage());
             RequestDispatcher rs = request.getRequestDispatcher("regauth");
             rs.include(request, response);
             e2.printStackTrace();
         }
-        out.close();
+    }
+    
+    @Override
+    public void doGet(
+         HttpServletRequest request
+        ,HttpServletResponse response
+    ) throws ServletException, IOException {
+        doPost(request, response);
     }
 }

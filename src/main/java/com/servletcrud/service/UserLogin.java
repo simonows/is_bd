@@ -1,33 +1,29 @@
 package com.servletcrud.service;
 
-import com.servletcrud.util.DBConnection;
+import com.servletcrud.util.DBConnect;
 import java.io.*;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 
 public class UserLogin extends HttpServlet{
-    DBConnection dBConnection;
-    Connection con;
+    DBConnect con;
     String captcha;
 
     @Override
     public void init() {
-        dBConnection = new DBConnection();
-        con = dBConnection.checkUser();
+        con = new DBConnect();
+        con.init();
+    }
+
+    @Override
+    public void destroy() {
+        con.close();
     }
 
     @Override
@@ -52,16 +48,16 @@ public class UserLogin extends HttpServlet{
             }
             if (checkUser(con, email, pass))
             {
-                HttpSession session = request.getSession();
+                HttpSession session = request.getSession(true);
                 session.setAttribute("name", email);
-                RequestDispatcher rs = request.getRequestDispatcher("Welcome");
-                rs.forward(request, response);
+
+                response.sendRedirect("cabinet");
             }
             else
             {
                 request.setAttribute(
                      "errorlog"
-                    ,"Неправильный логин или пароль"
+                   , "Неправильный логин или пароль"
                 );
                 RequestDispatcher rs = request.getRequestDispatcher("regauth");
                 rs.include(request, response);
@@ -90,16 +86,16 @@ public class UserLogin extends HttpServlet{
     }
 
     public boolean checkUser(
-         Connection con
+         DBConnect con
         ,String name
         ,String pass
-    ) throws SQLException{
-        PreparedStatement ps = con.prepareStatement(
+    ) throws SQLException {
+        ResultSet rs = con.exec(
             "select * from users where name=? and password=?"
+          , name
+          , pass
         );
-        ps.setString(1, name);
-        ps.setString(2, pass);
-        ResultSet rs =ps.executeQuery();
+
         return rs.next();
     }
 }

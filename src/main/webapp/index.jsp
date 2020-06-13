@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,14 +16,20 @@
       <span class="second-ch">S</span>8
     </div>
     <div class="signup">
-      <a href="regauth">Войти/Зарегистрироваться</a>
+      <c:set var="usert1" value="${sessionScope.name}"/>
+      <c:if test="${empty usert1}">
+        <a href="regauth">Войти/Зарегистрироваться</a>
+      </c:if>
+      <c:if test="${!empty usert1}">
+        <a href="cabinet">${usert1}</a>
+      </c:if>
     </div>
   </header>
   <div class="body-container">
     <nav class="menu">
       <div class="menu-elem noselect">Прилет</div>
       <div class="menu-elem noselect">Вылет</div>
-      <div class="menu-elem noselect"><a href="https://shtudy.org/news.jsp">Новости</a></div>
+      <div class="menu-elem noselect"><a href="https://shtudy.org/news">Новости</a></div>
       <div class="menu-elem noselect">Акции</div>
       <div class="menu-elem noselect">Правила</div>
       <div class="menu-elem noselect">Отмена рейсов</div>

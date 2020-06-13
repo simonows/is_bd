@@ -1,6 +1,6 @@
 package com.servletcrud.service;
 
-import com.servletcrud.util.DBConnection;
+import com.servletcrud.util.DBConnect;
 
 import java.sql.*;
 import java.io.IOException;
@@ -18,12 +18,16 @@ import org.json.JSONObject;
 
 @WebServlet(name = "CheckLogin", urlPatterns = {"/CheckLogin"})
 public class CheckLogin extends HttpServlet {
-    DBConnection dBConnection;
-    Connection con;
+    DBConnect con;
 
     @Override
     public void init() {
+        con.init();
+    }
 
+    @Override
+    public void destroy() {
+        con.close();
     }
 
     public void processRequest(
@@ -32,25 +36,19 @@ public class CheckLogin extends HttpServlet {
     ) throws ServletException, IOException, JSONException, SQLException {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        
+
         try (PrintWriter out = response.getWriter()) {
             JSONObject jsonEnt = new JSONObject();
-            dBConnection = new DBConnection();
-            con = dBConnection.checkUser();
 
-            PreparedStatement ps = con.prepareStatement(
+            ResultSet resultSet = con.exec(
                 "select password from users where name = ?"
+              , request.getParameter("login")
             );
 
-            ps.setString(1, request.getParameter("login"));
-
-            ResultSet resultSet = ps.executeQuery();
             resultSet.last();
-            if (resultSet.getRow() == 0){
-                //jsonEnt.put("backgroundColor","#99CC66");
+            if (resultSet.getRow() == 0) {
                 jsonEnt.put("serverInfo", "Логин свободен");
             } else {
-                //jsonEnt.put("backgroundColor","#CC6666");
                 jsonEnt.put("serverInfo", "Логин занят");
             }
             out.print(jsonEnt.toString());
@@ -61,31 +59,31 @@ public class CheckLogin extends HttpServlet {
     @Override
     public void doGet(
          HttpServletRequest request
-        ,HttpServletResponse response
+       , HttpServletResponse response
     ) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (JSONException ex) {
             //Logger.getLogger(AuthenticationServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (SQLException ex2) {
-            //Logger.getLogger(AuthenticationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex2) {
+            ex2.printStackTrace();
         }
     }
 
     @Override
     public void doPost(
          HttpServletRequest request
-        ,HttpServletResponse response
+       , HttpServletResponse response
     ) throws ServletException, IOException {
         try {
             processRequest(request, response);
         } catch (JSONException ex) {
             //Logger.getLogger(AuthenticationServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }catch (SQLException ex2) {
-            //Logger.getLogger(AuthenticationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex2) {
+            ex2.printStackTrace();
         }
     }
-    
+
     @Override
     public String getServletInfo() {
         return "Short description";
