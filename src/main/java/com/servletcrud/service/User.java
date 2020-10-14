@@ -1,65 +1,59 @@
 package com.servletcrud.service;
-
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table (name = "users")
 public class User {
-   String uname, password, email;
-   String namet, sernamet, patrt;
-   String birth, rege;
-   Date registeredon;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-   public void setname_t(String name_t)
-   {
-       namet = name_t;
-   }
-   public void setsername_t(String sername_t)
-   {
-       sernamet = sername_t;
-   }
-   public void setpatr_t(String patr_t)
-   {
-       patrt = patr_t;
-   }
-   public void setbirth(String birth)
-   {
-       birth = birth;
-   }
-   public void setrege(String rege)
-   {
-       rege = rege;
-   }
+    @Column(name = "name")
+    private String name;
+    @Column(name = "password")
+    private String password;
 
-   public void setUname(String uname1)
-   {
-       uname = uname1;
-   }
-   public String getUname()
-   {
-       return uname;
-   }
-   public void setPassword(String password2)
-   {
-       password = password2;
-   }
-   public String getPassword()
-   {
-       return password;
-   }
-   public void setRegisteredon(Date reg)
-   {
-       registeredon = reg;
-   }
-   public Date getRegisteredon()
-   {
-       return registeredon;
-   }
-   public void setEmail(String email1)
-   {
-       email = email1;
-   }
-   public String getEmail()
-   {
-       return email;
-   }
+    @OneToOne(optional=true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    public UserData data;
+
+    public User() {}
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setName(String uname1)
+    {
+        name = uname1;
+    }
+    public String getName()
+    {
+        return name;
+    }
+    public void setPassword(String password2)
+    {
+        password = password2;
+    }
+    public String getPassword()
+    {
+        return password;
+    }
+
+    @Override
+    public String toString() {
+        return "com.servletcrud.service.User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password=" + password +
+                '}';
+    }
 }
 

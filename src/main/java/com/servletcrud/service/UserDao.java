@@ -1,6 +1,9 @@
 package com.servletcrud.service;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import com.servletcrud.util.DBConnect;
+import com.servletcrud.util.HibernateSessionFactoryUtil;
 import java.sql.*;
 import java.util.*;
 
@@ -22,7 +25,7 @@ public class UserDao {
         try {
             ResultSet rs = con.exec(
                 "select name from users where name = ?"
-              , user.getUname()
+              , user.getName()
             );
             if (rs.next()) {
                 updateUser(user);
@@ -35,57 +38,38 @@ public class UserDao {
     }
 
     public void addUser(User user) {
-        con.update(
-            "insert into users(name, password) values (?, ?)"
-          , user.getUname()
-          , user.getPassword()
-        );
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.save(user);
+        tx1.commit();
+        session.close();
     }
 
-    public void deleteUser(String userId) {
-        con.update(
-            "delete from users where name=?"
-          , userId
-        );
+    public void deleteUser(User user) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.delete(user);
+        tx1.commit();
+        session.close();
     }
 
     public void updateUser(User user) {
-        con.update(
-            "update users set password=? where name=?"
-          , user.getPassword()
-          , user.getUname()
-        );
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        session.update(user);
+        tx1.commit();
+        session.close();
     }
 
     public List<User> getAllUsers() {
-        List<User> users = new ArrayList<User>();
-        try {
-            ResultSet rs = con.exec("select * from users");
-            while (rs.next()) {
-                User user = new User();
-                user.setUname(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<User> users = (List<User>)  HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From Users").list();
         return users;
     }
 
-    public User getUserById(String userId) {
-        User user = new User();
-        try {
-            ResultSet rs = con.exec("select * from users where name=?", userId);
-
-            if (rs.next()) {
-                user.setUname(rs.getString("name"));
-                user.setPassword(rs.getString("password"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return user;
+    public User getUserById(int userId) {
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(User.class, userId);
+    }
+    public User getUserByName(String userName) {
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(User.class, userName);
     }
 }

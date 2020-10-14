@@ -6,6 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.sql.*;
 import com.servletcrud.util.DBConnect;
+import com.servletcrud.service.*;
 import java.util.*;
 
 public class Cabinet extends HttpServlet {
@@ -27,7 +28,7 @@ public class Cabinet extends HttpServlet {
         HttpServletRequest request
       , HttpServletResponse response
     )throws ServletException, IOException {
-        List<User> users = new ArrayList<User>();
+        UserDao dao = new UserDao();
         HttpSession session = request.getSession(false);
 
         ResultSet rs = con.exec(
@@ -39,11 +40,11 @@ public class Cabinet extends HttpServlet {
 
         try {
             rs.next();
-            request.setAttribute("namet", rs.getString("name_t"));
-            request.setAttribute("sernamet", rs.getString("sername_t"));
-            request.setAttribute("patrt", rs.getString("patr_t"));
-            request.setAttribute("birtht", rs.getString("birth"));
-            request.setAttribute("reget", rs.getString("rege"));
+            request.setAttribute("namet", dao.getUserByName((String)session.getAttribute("name")).data.getName());
+            request.setAttribute("sernamet", dao.getUserByName((String)session.getAttribute("name")).data.getSername());
+            request.setAttribute("patrt", dao.getUserByName((String)session.getAttribute("name")).data.getPatronymic());
+            request.setAttribute("birtht", dao.getUserByName((String)session.getAttribute("name")).data.getBirth());
+            request.setAttribute("reget", dao.getUserByName((String)session.getAttribute("name")).data.getRege());
         } catch (SQLException e) {
             e.printStackTrace();
         }

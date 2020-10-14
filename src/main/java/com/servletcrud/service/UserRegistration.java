@@ -36,11 +36,10 @@ public class UserRegistration extends HttpServlet{
         String pass=request.getParameter("password");
 
         try {
-            int i =con.update(
-                "insert into users (name,password) values(?,?)"
-              , name
+            int i = dao.addUser(new User(
+                name
               , pass
-            );
+            ));
             if (i > 0) {
                 request.setAttribute(
                      "successlog"

@@ -16,28 +16,28 @@ public class UserController extends HttpServlet {
     private static String INSERT_OR_EDIT = "/user.jsp";
     private static String LIST_USER = "/listuser.jsp";
     private UserDao dao;
- 
+
     public UserController() {
         super();
         dao = new UserDao();
     }
- 
+
     protected void doGet(
         HttpServletRequest request
       , HttpServletResponse response
     ) throws ServletException, IOException {
         String forward="";
         String action = request.getParameter("action");
- 
+
         if (action.equalsIgnoreCase("delete")){
             String userId = request.getParameter("userId");
-            dao.deleteUser(userId);
+            dao.deleteUser(dao.getUserById(Integer.parseInt(userId)));
             forward = LIST_USER;
-            request.setAttribute("users", dao.getAllUsers());    
+            request.setAttribute("users", dao.getAllUsers());
         } else if (action.equalsIgnoreCase("edit")){
             forward = INSERT_OR_EDIT;
             String userId = request.getParameter("userId");
-            User user = dao.getUserById(userId);
+            User user = dao.getUserById(Integer.parseInt(userId));
             request.setAttribute("user", user);
         } else if (action.equalsIgnoreCase("listUser")){
             forward = LIST_USER;
@@ -45,22 +45,22 @@ public class UserController extends HttpServlet {
         } else {
             forward = INSERT_OR_EDIT;
         }
- 
+
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);
     }
- 
+
     protected void doPost(
         HttpServletRequest request
       , HttpServletResponse response
     ) throws ServletException, IOException {
         User user = new User();
-        user.setUname(request.getParameter("uname"));
+        user.setName(request.getParameter("uname"));
         user.setPassword(request.getParameter("pass"));
 
         String userid = request.getParameter("uname");
 
-        user.setUname(userid);
+        user.setName(userid);
         dao.checkUser(user);
 
         RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
